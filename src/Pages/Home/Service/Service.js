@@ -19,7 +19,7 @@ const Service = ({ service }) => {
       </p>
       <button
         onClick={() => navigateToServiceDetail(id)}
-        className="btn btn-primary"
+        className="btn btn-warning"
       >
         Book: {name}
       </button>
