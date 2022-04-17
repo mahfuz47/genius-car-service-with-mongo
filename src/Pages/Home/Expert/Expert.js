@@ -12,7 +12,7 @@ const Expert = ({ expert }) => {
             Some quick example text to build on the card title and make up the
             bulk of the card's content.
           </p>
-          <button href="#" className="btn btn-primary">
+          <button href="#" className="btn btn-warning">
             Go somewhere
           </button>
         </div>
