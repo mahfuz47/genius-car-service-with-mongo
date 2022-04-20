@@ -9,6 +9,9 @@ import auth from "../../../firebase.init";
 import SocialLogin from "../SocialLogin/SocialLogin";
 import Loading from "../../Shared/Loading/Loading";
 
+import PageTitle from "../../Shared/PageTitle/PageTitle";
+import { toast, ToastContainer } from "react-toastify";
+
 const Register = () => {
   const [agree, setAgree] = useState(false);
   const [createUserWithEmailAndPassword, user, loading] =
@@ -38,12 +41,13 @@ const Register = () => {
 
     await createUserWithEmailAndPassword(email, password);
     await updateProfile({ displayName: name });
-    console.log("Updated profile");
-    navigate("/home");
+    toast("Updated profile");
+    navigate("/");
   };
 
   return (
     <div className="register-form">
+      <PageTitle title="Registration"></PageTitle>
       <h2 style={{ textAlign: "center" }}>Please Register</h2>
       <form onSubmit={handleRegister}>
         <input type="text" name="name" id="" placeholder="Your Name" />
@@ -91,6 +95,7 @@ const Register = () => {
         </Link>{" "}
       </p>
       <SocialLogin></SocialLogin>
+      <ToastContainer></ToastContainer>
     </div>
   );
 };

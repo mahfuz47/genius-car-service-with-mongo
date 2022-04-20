@@ -1,16 +1,27 @@
-import React from 'react';
-import Banner from '../Banner/Banner';
-import Experts from '../Experts/Experts';
-import Services from '../Services/Services';
+import React from "react";
+import PageTitle from "../../Shared/PageTitle/PageTitle";
+import { ToastContainer, toast } from "react-toastify";
+import Banner from "../Banner/Banner";
+import Experts from "../Experts/Experts";
+import Services from "../Services/Services";
+import { useAuthState } from "react-firebase-hooks/auth";
+import auth from "../../../firebase.init";
 
 const Home = () => {
-    return (
-        <>
-            <Banner></Banner>
-            <Services></Services>
-            <Experts></Experts>
-        </>
-    );
+  const [user] = useAuthState(auth);
+  if (user) {
+    toast("Login Successful");
+  }
+
+  return (
+    <>
+      <PageTitle title="Home"></PageTitle>
+      <Banner></Banner>
+      <Services></Services>
+      <Experts></Experts>
+      <ToastContainer></ToastContainer>
+    </>
+  );
 };
 
 export default Home;
