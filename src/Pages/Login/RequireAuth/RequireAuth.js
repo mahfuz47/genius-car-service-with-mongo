@@ -3,58 +3,48 @@ import {
   useAuthState,
   useSendEmailVerification,
 } from "react-firebase-hooks/auth";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
 import auth from "../../../firebase.init";
 import Loading from "../../Shared/Loading/Loading";
-import { ToastContainer, toast } from "react-toastify";
 
 const RequireAuth = ({ children }) => {
   const [user, loading] = useAuthState(auth);
   const location = useLocation();
-  const navigate = useNavigate();
   const [sendEmailVerification, sending, error] =
     useSendEmailVerification(auth);
   if (loading) {
     return <Loading></Loading>;
   }
-  if (!user) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
-  }
-  let from = location.state?.from?.pathname || "/";
-  if (user) {
-    navigate(from, { replace: true });
-  }
-
   if (sending) {
     return <Loading></Loading>;
   }
-
   if (error) {
-    return (
-      <div className="text-danger text-center">
-        <h1>Please try with a valid email address</h1>
-      </div>
-    );
+    alert("Please try again leter");
+  }
+  if (!user) {
+    return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
-  if (!user.emailVerified) {
+  if (user.providerData[0]?.providerId === "password" && !user.emailVerified) {
     return (
-      <div className="text-center">
-        <h1 className="text-danger">Your Email Is Not Verified</h1>
-        <h4 className="text-primary">please varify your email</h4>
+      <div className="text-center mt-5">
+        <h3 className="text-danger">Your Email is not verified!!</h3>
+        <h5 className="text-success"> Please Verify your email address</h5>
         <button
+          className="btn btn-primary"
           onClick={async () => {
             await sendEmailVerification();
             toast("Sent email");
           }}
-          className="btn btn-primary"
         >
-          Verify
+          Send Verification Email Again
         </button>
         <ToastContainer></ToastContainer>
       </div>
     );
   }
+
   return children;
 };
 
