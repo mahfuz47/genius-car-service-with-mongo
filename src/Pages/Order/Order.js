@@ -29,8 +29,15 @@ const Order = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
   return (
-    <div>
+    <div className="text-center">
       <h2>Your orders: {orders.length}</h2>
+      {orders.map((order) => (
+        <div key={order._id}>
+          <p>
+            {order.email} : {order.service}
+          </p>
+        </div>
+      ))}
     </div>
   );
 };
