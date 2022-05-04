@@ -44,7 +44,10 @@ const Login = () => {
     const password = passwordRef.current.value;
 
     await signInWithEmailAndPassword(email, password);
-    const { data } = await axios.post("http://localhost:5000/login", { email });
+    const { data } = await axios.post(
+      "https://morning-river-08726.herokuapp.com/login",
+      { email }
+    );
     localStorage.setItem("accessToken", data.accessToken);
     navigate(from, { replace: true });
   };
