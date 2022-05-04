@@ -8,16 +8,16 @@ import "./Register.css";
 import auth from "../../../firebase.init";
 import SocialLogin from "../SocialLogin/SocialLogin";
 import Loading from "../../Shared/Loading/Loading";
-
 import PageTitle from "../../Shared/PageTitle/PageTitle";
 import { toast, ToastContainer } from "react-toastify";
+import useToken from "../../../hooks/useToken";
 
 const Register = () => {
   const [agree, setAgree] = useState(false);
   const [createUserWithEmailAndPassword, user, loading] =
     useCreateUserWithEmailAndPassword(auth, { sendEmailVerification: true });
   const [updateProfile, updating] = useUpdateProfile(auth);
-
+  const [token] = useToken(user);
   const navigate = useNavigate();
 
   const navigateLogin = () => {
@@ -28,8 +28,9 @@ const Register = () => {
     return <Loading></Loading>;
   }
 
-  if (user) {
+  if (token) {
     console.log("user", user);
+    navigate("/");
   }
 
   const handleRegister = async (event) => {
@@ -42,7 +43,6 @@ const Register = () => {
     await createUserWithEmailAndPassword(email, password);
     await updateProfile({ displayName: name });
     toast("Updated profile");
-    navigate("/");
   };
 
   return (
